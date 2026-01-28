@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Student Management</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
+            padding: 20px;
+        }
+
+        h2 {
+            color: #333;
+        }
+
+        form {
+            margin-bottom: 20px;
+        }
+
+        input {
+            padding: 8px;
+            margin-right: 10px;
+        }
+
+        button {
+            padding: 8px 12px;
+            cursor: pointer;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+        }
+
+        th, td {
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: center;
+        }
+
+        th {
+            background: #007BFF;
+            color: white;
+        }
+
+        a {
+            text-decoration: none;
+            color: red;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Add Student</h2>
+
+    <!-- CREATE -->
+    <form action="{{ url_for('add_student') }}" method="post">
+        <input type="text" name="name" placeholder="Student Name" required>
+        <input type="number" name="age" placeholder="Age" required>
+        <button type="submit">Add</button>
+    </form>
+
+    <h2>Student List</h2>
+
+    <!-- READ -->
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Age</th>
+            <th>Update</th>
+            <th>Delete</th>
+        </tr>
+
+        {% for student in students %}
+        <tr>
+            <td>{{ student.id }}</td>
+            <td>
+                <!-- UPDATE -->
+                <form action="{{ url_for('update_student', student_id=student.id) }}" method="post">
+                    <input type="text" name="name" value="{{ student.name }}" required>
+            </td>
+            <td>
+                    <input type="number" name="age" value="{{ student.age }}" required>
+            </td>
+            <td>
+                    <button type="submit">Update</button>
+                </form>
+            </td>
+            <td>
+                <!-- DELETE -->
+                <a href="{{ url_for('delete_student', student_id=student.id) }}"
+                   onclick="return confirm('Are you sure?')">Delete</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+
+</body>
+</html>
